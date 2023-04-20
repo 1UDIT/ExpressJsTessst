@@ -1,10 +1,11 @@
-require("../Database/index"); 
+require("../Database/index");
 
 
 
 const ApiDemo = require("../models/ApiFormat");
 
 const getAnimeSchedule = async (req, res) => {
+    console.log("runningGet");
     try {
         const RespData = await ApiDemo.find({});
         res.status(200).send(RespData);
@@ -12,22 +13,34 @@ const getAnimeSchedule = async (req, res) => {
         res.status(400).send(e);
     }
 }
-// const postTestingApi = async (req, res) => {
+const FindDetail = async (req, res) => {
+    console.log("running");
+    try {
+        let query = {
+            value: {
+                $regex: req.params.value,
+            }
+        };
+        console.log("query",query.value.$regex);
+        const userFound = await ApiDemo.find({_id:query.value.$regex});
+        console.log(userFound);
+        res.status(200).send(userFound);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+}
+
+// const FindDetail = async (req, res) => {
+//     console.log("running");
 //     try {
-//         const addingAPI = new ApiDemo(req.body);
-//         console.log(req.body);
-//         const apiSave = await addingAPI.save();
-//         res.status(201).send(apiSave);
-//     } catch (e) {
-//         res.status(400).send(e);
-//     }
+//         const userFound = await ApiDemo.find({title:query});
+//         console.log(userFound);
+//         res.status(200).send(userFound);
+//       } catch (err) {
+//         console.log(err);
+//       }
+      
 // }
-
-
-
-// const upload = multer({
-//     storage: Storage,
-// }).single("myImage");;
 
 const postAnimeSchedule = async (req, res) => {
     console.log(req.body);
@@ -41,7 +54,7 @@ const postAnimeSchedule = async (req, res) => {
     }
 }
 
- 
- 
 
-module.exports = { getAnimeSchedule, postAnimeSchedule }; 
+
+
+module.exports = { getAnimeSchedule, postAnimeSchedule, FindDetail }; 

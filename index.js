@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 
 // const ApiDemo = require("./src/models/ApiFormat");
 const SchedulerRouter = require("./src/Router/SchedulerRouter");
+const WeekTreading = require("./src/Router/WeekTreading");
 
 const app = express();
 // app.use(express.json());
@@ -16,6 +17,7 @@ app.use(express.json({ limit: '50mb' }));
 const port = process.env.PORT || 8888;
 
 app.use("/AnimeScheduler", SchedulerRouter);
+app.use("/WeekTreading", WeekTreading);
 
  
 app.listen(port, () => {
