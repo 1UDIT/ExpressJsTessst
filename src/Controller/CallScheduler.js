@@ -30,17 +30,7 @@ const FindDetail = async (req, res) => {
     }
 }
 
-// const FindDetail = async (req, res) => {
-//     console.log("running");
-//     try {
-//         const userFound = await ApiDemo.find({title:query});
-//         console.log(userFound);
-//         res.status(200).send(userFound);
-//       } catch (err) {
-//         console.log(err);
-//       }
-      
-// }
+ 
 
 const postAnimeSchedule = async (req, res) => {
     console.log(req.body);
