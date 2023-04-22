@@ -22,8 +22,8 @@ const FindDetail = async (req, res) => {
             }
         };
         console.log("query",query.value.$regex);
-        const userFound = await ApiDemo.find({_id:query.value.$regex});
-        console.log(userFound);
+        const userFound = await ApiDemo.find({title:query.value.$regex});
+        // console.log(userFound);
         res.status(200).send(userFound);
     } catch (e) {
         res.status(400).send(e);

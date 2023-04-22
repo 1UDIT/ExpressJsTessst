@@ -1,5 +1,11 @@
 const mongoDB = require('mongoose');
+const DB = process.env.DATABASE 
 
-mongoDB.connect("mongodb://0.0.0.0:27017/test")
-.then(()=>console.log("connection Successfully"))
+mongoDB.connect(DB,{
+    useUnifiedTopology:true,
+    useNewUrlParser:true
+}).then(()=>console.log("connection Successfully"))
 .catch((err)=>console.log(err)); 
+
+
+ 
