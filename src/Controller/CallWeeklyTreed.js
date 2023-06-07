@@ -1,5 +1,3 @@
-require("../Database/index");
-
 
 
 const WeeklyAPI = require("../models/WeeklyApiFormat");

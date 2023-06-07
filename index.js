@@ -1,8 +1,8 @@
+require("./src/Database/index");
 const express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 require('dotenv').config();
-require("./src/Database/index");
 
 // require("./src/Database/index");
 

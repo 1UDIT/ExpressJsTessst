@@ -1,6 +1,4 @@
-require("../Database/index");
-
-
+ 
 
 const imageModel = require("../models/ImageUploaderFormat");
 const fs = require("fs");
