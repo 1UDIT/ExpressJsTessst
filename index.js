@@ -1,13 +1,10 @@
-require("./src/Database/index");
 const express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 require('dotenv').config();
-
-// require("./src/Database/index");
-
-// const ApiDemo = require("./src/models/ApiFormat");
-const SchedulerRouter = require("./src/Router/SchedulerRouter");
+require("./src/Database/index");
+ 
+// const SchedulerRouter = require("./src/Router/SchedulerRouter");
 const WeekTreading = require("./src/Router/WeekTreading");
 const uploaderImage = require("./src/Router/UploaderImage");
 
