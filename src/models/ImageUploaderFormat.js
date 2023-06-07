@@ -4,6 +4,7 @@ const ImageUploaderFormat = new mongoose.Schema({
     img: {
         data: Buffer,
         contentType: String,
+        path: String,
     },
     title: {
         type: String,

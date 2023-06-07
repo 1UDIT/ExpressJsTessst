@@ -21,7 +21,7 @@ const port = process.env.PORT || 8888;
 
 app.use(express.static(__dirname + '/uploads/'));
 
-app.use("/AnimeScheduler", SchedulerRouter);
+// app.use("/AnimeScheduler", SchedulerRouter);
 app.use("/WeekTreading", WeekTreading);
 app.use("/uploadImage", uploaderImage);
 
