@@ -1,4 +1,4 @@
- 
+
 
 const imageModel = require("../models/ImageUploaderFormat");
 const fs = require("fs");
@@ -108,5 +108,44 @@ const GetimageUpload = async (req, res, next) => {
 }
 
 
+const FindDetail = async (req, res, next) => {
+    const authheader = req.headers.authorization;
 
-module.exports = { PostimageUpload, GetimageUpload }; 
+    if (!authheader) {
+        let err = new Error('You are not authenticated!');
+        res.setHeader('WWW-Authenticate', 'Basic');
+        err.status = 401;
+        return next(err)
+    }
+
+    const auth = new Buffer.from(authheader.split(' ')[1],
+        'base64').toString().split(':');
+    const user = auth[0];
+    const pass = auth[1];
+
+    if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
+        try {
+            let query = {
+                value: {
+                    $regex: req.params.value,
+                }
+            };
+            console.log("query", query.value.$regex);
+            const userFound = await ApiDemo.find({ title: query.value.$regex });
+            // console.log(userFound);
+            res.status(200).send(userFound);
+        } catch (e) {
+            res.status(400).send(e);
+        } next();
+    } else {
+        let err = new Error('You are not authenticated!');
+        res.setHeader('WWW-Authenticate', 'Basic');
+        err.status = 401;
+        return next(err);
+    }
+}
+
+
+
+
+module.exports = { PostimageUpload, GetimageUpload, FindDetail }; 
