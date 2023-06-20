@@ -131,10 +131,10 @@ const FindDetail = async (req, res, next) => {
                 }
             };
             console.log("query", query.value.$regex);
-            const userFound = await ApiDemo.find({ title: query.value.$regex });
+            const userFound = await imageModel.find({ title: query.value.$regex });
             // console.log(userFound);
             res.status(200).send(userFound);
-        } catch (e) {
+        } catch (e) {             
             res.status(400).send(e);
         } next();
     } else {
