@@ -8,19 +8,19 @@ const fs = require("fs");
 const PostimageUpload = async (req, res, next) => {
     const authheader = req.headers.authorization;
 
-    if (!authheader) {
-        let err = new Error('You are not authenticated!');
-        res.setHeader('WWW-Authenticate', 'Basic');
-        err.status = 401;
-        return next(err)
-    }
+    // if (!authheader) {
+    //     let err = new Error('You are not authenticated!');
+    //     res.setHeader('WWW-Authenticate', 'Basic');
+    //     err.status = 401;
+    //     return next(err)
+    // }
 
-    const auth = new Buffer.from(authheader.split(' ')[1],
-        'base64').toString().split(':');
-    const user = auth[0];
-    const pass = auth[1];
+    // const auth = new Buffer.from(authheader.split(' ')[1],
+    //     'base64').toString().split(':');
+    // const user = auth[0];
+    // const pass = auth[1];
 
-    if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
+    // if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
         const saveImage = imageModel({
             name: req.body.name,
             img: {
@@ -46,13 +46,13 @@ const PostimageUpload = async (req, res, next) => {
             });
         res.send('image is saved')
         next();
-    }
-    else {
-        let err = new Error('You are not authenticated!');
-        res.setHeader('WWW-Authenticate', 'Basic');
-        err.status = 401;
-        return next(err);
-    }
+    // }
+    // else {
+    //     let err = new Error('You are not authenticated!');
+    //     res.setHeader('WWW-Authenticate', 'Basic');
+    //     err.status = 401;
+    //     return next(err);
+    // }
 }
 
 
