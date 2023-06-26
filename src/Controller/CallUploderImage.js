@@ -5,22 +5,8 @@ const fs = require("fs");
 
 
 
-const PostimageUpload = async (req, res) => {
-    const authheader = req.headers.authorization;
-
-    // if (!authheader) {
-    //     let err = new Error('You are not authenticated!');
-    //     res.setHeader('WWW-Authenticate', 'Basic');
-    //     err.status = 401;
-    //     return next(err)
-    // }
-
-    // const auth = new Buffer.from(authheader.split(' ')[1],
-    //     'base64').toString().split(':');
-    // const user = auth[0];
-    // const pass = auth[1];
-
-    // if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
+const PostimageUpload = async (req, res ) => {
+    
         const saveImage = imageModel({
             name: req.body.name,
             img: {
@@ -44,17 +30,9 @@ const PostimageUpload = async (req, res) => {
             .catch((err) => {
                 console.log(err, "error has occur");
             });
-        res.send('image is saved')
-         
-    // }
-    // else {
-    //     let err = new Error('You are not authenticated!');
-    //     res.setHeader('WWW-Authenticate', 'Basic');
-    //     err.status = 401;
-    //     return next(err);
-    // }
+        res.send('image is saved');
+   
 }
-
 
 const GetimageUpload = async (req, res, next) => {
     const authheader = req.headers.authorization;
@@ -134,7 +112,7 @@ const FindDetail = async (req, res, next) => {
             const userFound = await imageModel.find({ title: query.value.$regex });
             // console.log(userFound);
             res.status(200).send(userFound);
-        } catch (e) {             
+        } catch (e) {
             res.status(400).send(e);
         } next();
     } else {
