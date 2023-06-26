@@ -5,7 +5,7 @@ const fs = require("fs");
 
 
 
-const PostimageUpload = async (req, res, next) => {
+const PostimageUpload = async (req, res) => {
     const authheader = req.headers.authorization;
 
     // if (!authheader) {
@@ -45,7 +45,7 @@ const PostimageUpload = async (req, res, next) => {
                 console.log(err, "error has occur");
             });
         res.send('image is saved')
-        next();
+         
     // }
     // else {
     //     let err = new Error('You are not authenticated!');
