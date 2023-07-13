@@ -23,8 +23,9 @@ const APISchema = new mongoose.Schema({
         required: true
     },
     image: {
-        type: String,
-        required: true
+        data: Buffer,
+        contentType: String,
+        path: String,
     },
     createdAt: {
         type: Date,
@@ -32,29 +33,6 @@ const APISchema = new mongoose.Schema({
     }
 });
 
-const ApiModel = new mongoose.model("AnimeSchedule", APISchema);
+const ApiModel = new mongoose.model("topList", APISchema);
 
 module.exports = ApiModel;
-
-// const mongoose = require("mongoose");
-// var ObjectID = require('mongodb').ObjectId;
-// const APISchema = new mongoose.Schema({
-//        fruit: {
-//             type: String,
-//             require: true,
-//         },
-//         size: {
-//             type: String,
-//             require: true,
-//         },
-//         color: {
-//             type: String,
-//             require: true,
-//         }
-//     })
-
-
-
-// const ApiModel = new mongoose.model("ApiTesting", APISchema);
-
-// module.exports = ApiModel;

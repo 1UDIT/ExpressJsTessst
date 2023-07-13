@@ -1,9 +1,8 @@
 const express = require("express"); 
 
 const router = express.Router();
-const multer = require("multer"); 
 
-const { getCallWeeklyTread, postCallWeeklyTread } = require("../Controller/CallWeeklyTreed");
+const multer = require("multer"); 
  
 
 const storage = multer.diskStorage({
@@ -17,9 +16,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+const { getFiveData, postFiveData, FindDetail } = require("../Controller/CallScheduler");
+ 
 
-router.route("/").get(getCallWeeklyTread);
-router.route("/").post(upload.single("testImage"),postCallWeeklyTread);
+
+
+router.route("/").get(getFiveData);
+router.route("/").post(upload.single("testImage"),postFiveData);
+router.route("/getData/:value").get(FindDetail);
  
 
 module.exports = router; 

@@ -1,6 +1,5 @@
-
-
 const WeeklyAPI = require("../models/WeeklyApiFormat");
+const fs = require("fs");
 
 const getCallWeeklyTread = async (req, res, next) => {
     // console.log(req.headers);
@@ -36,8 +35,41 @@ const getCallWeeklyTread = async (req, res, next) => {
 
 }
 
+// const postCallWeeklyTread = async (req, res, next) => {
+//     // console.log(req.body);
+//     const authheader = req.headers.authorization;
+
+//     if (!authheader) {
+//         let err = new Error('You are not authenticated!');
+//         res.setHeader('WWW-Authenticate', 'Basic');
+//         err.status = 401;
+//         return next(err)
+//     }
+
+//     const auth = new Buffer.from(authheader.split(' ')[1],
+//         'base64').toString().split(':');
+//     const user = auth[0];
+//     const pass = auth[1];
+
+//     if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
+//         try {
+//             //    const Api = mongoose.find({Monday: req.body})  
+//             const addingAPI = new WeeklyAPI(req.body);
+//             const apiSave = await addingAPI.save();
+//             res.status(201).send(apiSave);
+//         } catch (e) {
+//             res.status(400).send(e);
+//         }
+//         next();
+//     }else {
+//         let err = new Error('You are not authenticated!');
+//         res.setHeader('WWW-Authenticate', 'Basic');
+//         err.status = 401;
+//         return next(err);
+//     }
+// }
+
 const postCallWeeklyTread = async (req, res, next) => {
-    // console.log(req.body);
     const authheader = req.headers.authorization;
 
     if (!authheader) {
@@ -53,16 +85,33 @@ const postCallWeeklyTread = async (req, res, next) => {
     const pass = auth[1];
 
     if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
-        try {
-            //    const Api = mongoose.find({Monday: req.body})  
-            const addingAPI = new WeeklyAPI(req.body);
-            const apiSave = await addingAPI.save();
-            res.status(201).send(apiSave);
-        } catch (e) {
-            res.status(400).send(e);
-        }
+        const saveImage = WeeklyAPI({
+            name: req.body.name,
+            image: {
+                data: fs.readFileSync("uploads/" + req.file.filename),
+                contentType: req.file.mimetype,
+                path: req.file.path,
+                name: req.file.originalname
+            },
+            title: req.body.title,
+            description: req.body.description,
+            day: req.body.day,
+            Time: req.body.Time,
+            Studio: req.body.Studio,
+            createdAt: req.body.createdAt
+        });
+        saveImage
+            .save()
+            .then((res) => {
+                console.log("image is saved");
+            })
+            .catch((err) => {
+                console.log(err, "error has occur");
+            });
+        res.send('image is saved')
         next();
-    }else {
+    }
+    else {
         let err = new Error('You are not authenticated!');
         res.setHeader('WWW-Authenticate', 'Basic');
         err.status = 401;

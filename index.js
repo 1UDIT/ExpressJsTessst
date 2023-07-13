@@ -7,6 +7,7 @@ require("./src/Database/index");
 // const SchedulerRouter = require("./src/Router/SchedulerRouter");
 const WeekTreading = require("./src/Router/WeekTreading");
 const uploaderImage = require("./src/Router/UploaderImage");
+const mostTenWanted = require("./src/Router/topFiveList");
 
 const app = express();
 // app.use(express.json());
@@ -21,6 +22,7 @@ app.use(express.static(__dirname + '/uploads/'));
 // app.use("/AnimeScheduler", SchedulerRouter);
 app.use("/WeekTreading", WeekTreading);
 app.use("/uploadImage", uploaderImage);
+app.use("/topTen", mostTenWanted) 
 
  
 app.listen(port, () => {

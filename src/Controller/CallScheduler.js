@@ -1,10 +1,10 @@
 require("../Database/index");
-
+const fs = require("fs");
 
 
 const ApiDemo = require("../models/ApiFormat");
 
-const getAnimeSchedule = async (req, res) => {
+const getFiveData = async (req, res) => {
     try {
         // const FindingData = await ApiDemo.aggregate([
         //     // { "$match": { "day": "Monday" } },    
@@ -54,6 +54,7 @@ const getAnimeSchedule = async (req, res) => {
         res.status(400).send(e);
     }
 }
+
 const FindDetail = async (req, res) => {
     console.log("running");
     try {
@@ -73,19 +74,57 @@ const FindDetail = async (req, res) => {
 
 
 
-const postAnimeSchedule = async (req, res) => {
-    console.log(req.body);
-    try {
-        //    const Api = mongoose.find({Monday: req.body})  
-        const addingAPI = new ApiDemo(req.body);
-        const apiSave = await addingAPI.save();
-        res.status(201).send(apiSave);
-    } catch (e) {
-        res.status(400).send(e);
+const postFiveData = async (req, res, next) => {
+    const authheader = req.headers.authorization;
+
+    if (!authheader) {
+        let err = new Error('You are not authenticated!');
+        res.setHeader('WWW-Authenticate', 'Basic');
+        err.status = 401;
+        return next(err)
+    }
+
+    const auth = new Buffer.from(authheader.split(' ')[1],
+        'base64').toString().split(':');
+    const user = auth[0];
+    const pass = auth[1];
+
+    if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
+        const saveImage = ApiDemo({
+            name: req.body.name,
+            image: {
+                data: fs.readFileSync("uploads/" + req.file.filename),
+                contentType: req.file.mimetype,
+                path: req.file.path,
+                name: req.file.originalname
+            },
+            title: req.body.title,
+            description: req.body.description,
+            day: req.body.day,
+            Time: req.body.Time,
+            Studio: req.body.Studio,
+            createdAt: req.body.createdAt
+        });
+        saveImage
+            .save()
+            .then((res) => {
+                console.log("image is saved");
+            })
+            .catch((err) => {
+                console.log(err, "error has occur");
+            });
+        res.send('image is saved')
+        next();
+    }
+    else {
+        let err = new Error('You are not authenticated!');
+        res.setHeader('WWW-Authenticate', 'Basic');
+        err.status = 401;
+        return next(err);
     }
 }
 
 
 
 
-module.exports = { getAnimeSchedule, postAnimeSchedule, FindDetail }; 
+module.exports = { getFiveData, postFiveData, FindDetail }; 
