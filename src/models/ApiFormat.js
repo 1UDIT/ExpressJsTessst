@@ -21,11 +21,14 @@ const APISchema = new mongoose.Schema({
     Studio: {
         type: String,
         required: true
+    },     
+    profile_img: {
+        type: String,
+        required: true
     },
-    image: {
-        data: Buffer,
-        contentType: String,
-        path: String,
+    cloudinary_id: {
+        type: String,
+        required: true
     },
     createdAt: {
         type: Date,

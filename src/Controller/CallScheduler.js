@@ -1,5 +1,6 @@
 require("../Database/index");
 const fs = require("fs");
+const cloudinary = require("../cloudinary Database/index");
 
 
 const ApiDemo = require("../models/ApiFormat");
@@ -30,8 +31,8 @@ const getFiveData = async (req, res) => {
             // { "$match": { "day": { "$in": ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] }  } },
             {
                 "$sort": {
-                    day: 1, 
-                    Time:1, 
+                    day: 1,
+                    Time: 1,
                 }
             },
             {
@@ -44,8 +45,8 @@ const getFiveData = async (req, res) => {
                     Time: "$Time",
                     _id: "$_id",
                 }
-            }          
-            
+            }
+
         ]);
         // console.log(ApiDemo.find({title}));
         const RespData = await ApiDemo.find({});
@@ -90,14 +91,11 @@ const postFiveData = async (req, res, next) => {
     const pass = auth[1];
 
     if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
+        const result = await cloudinary.uploader.upload(req.file.path);
         const saveImage = ApiDemo({
             name: req.body.name,
-            image: {
-                data: fs.readFileSync("uploads/" + req.file.filename),
-                contentType: req.file.mimetype,
-                path: req.file.path,
-                name: req.file.originalname
-            },
+            profile_img: result.secure_url,
+            cloudinary_id: result.public_id,
             title: req.body.title,
             description: req.body.description,
             day: req.body.day,

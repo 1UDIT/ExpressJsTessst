@@ -1,5 +1,6 @@
 const WeeklyAPI = require("../models/WeeklyApiFormat");
 const fs = require("fs");
+const cloudinary = require("../cloudinary Database/index");
 
 const getCallWeeklyTread = async (req, res, next) => {
     // console.log(req.headers);
@@ -34,41 +35,7 @@ const getCallWeeklyTread = async (req, res, next) => {
 
 
 }
-
-// const postCallWeeklyTread = async (req, res, next) => {
-//     // console.log(req.body);
-//     const authheader = req.headers.authorization;
-
-//     if (!authheader) {
-//         let err = new Error('You are not authenticated!');
-//         res.setHeader('WWW-Authenticate', 'Basic');
-//         err.status = 401;
-//         return next(err)
-//     }
-
-//     const auth = new Buffer.from(authheader.split(' ')[1],
-//         'base64').toString().split(':');
-//     const user = auth[0];
-//     const pass = auth[1];
-
-//     if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
-//         try {
-//             //    const Api = mongoose.find({Monday: req.body})  
-//             const addingAPI = new WeeklyAPI(req.body);
-//             const apiSave = await addingAPI.save();
-//             res.status(201).send(apiSave);
-//         } catch (e) {
-//             res.status(400).send(e);
-//         }
-//         next();
-//     }else {
-//         let err = new Error('You are not authenticated!');
-//         res.setHeader('WWW-Authenticate', 'Basic');
-//         err.status = 401;
-//         return next(err);
-//     }
-// }
-
+ 
 const postCallWeeklyTread = async (req, res, next) => {
     const authheader = req.headers.authorization;
 
@@ -85,14 +52,11 @@ const postCallWeeklyTread = async (req, res, next) => {
     const pass = auth[1];
 
     if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
+        const result = await cloudinary.uploader.upload(req.file.path);
         const saveImage = WeeklyAPI({
             name: req.body.name,
-            image: {
-                data: fs.readFileSync("uploads/" + req.file.filename),
-                contentType: req.file.mimetype,
-                path: req.file.path,
-                name: req.file.originalname
-            },
+            profile_img: result.secure_url,
+            cloudinary_id: result.public_id,
             title: req.body.title,
             description: req.body.description,
             day: req.body.day,

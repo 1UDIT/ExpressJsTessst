@@ -1,5 +1,6 @@
 const imageModel = require("../models/ImageUploaderFormat");
 const fs = require("fs");
+const cloudinary = require("../cloudinary Database/index");
 
 
 
@@ -49,14 +50,11 @@ const PostimageUpload = async (req, res, next) => {
     const pass = auth[1];
 
     if (user == process.env.LoginUsername && pass == process.env.LoginPassword) {
+        const result = await cloudinary.uploader.upload(req.file.path);
         const saveImage = imageModel({
             name: req.body.name,
-            img: {
-                data: fs.readFileSync("uploads/" + req.file.filename),
-                contentType: req.file.mimetype,
-                path: req.file.path,
-                name: req.file.originalname
-            },
+            profile_img: result.secure_url,
+            cloudinary_id: result.public_id,
             title: req.body.title,
             description: req.body.description,
             day: req.body.day,

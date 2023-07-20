@@ -17,7 +17,8 @@ app.use(express.json({ limit: '50mb' }));
 
 const port = process.env.PORT || 8888;
 
-app.use(express.static(__dirname + '/uploads/'));
+// app.use(express.static(__dirname + '/uploads/'));
+app.use('/uploads', express.static(process.cwd() + '/uploads'))
 
 // app.use("/AnimeScheduler", SchedulerRouter);
 app.use("/WeekTreading", WeekTreading);

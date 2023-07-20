@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
 const ImageUploaderFormat = new mongoose.Schema({ 
-    img: {
-        data: Buffer,
-        contentType: String,
-        path: String,
+    profile_img: {
+        type: String,
+        required: true
+    },
+    cloudinary_id: {
+        type: String,
+        required: true
     },
     title: {
         type: String,

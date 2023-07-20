@@ -22,10 +22,13 @@ const WeeklyAPI = new mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
-        data: Buffer,
-        contentType: String,
-        path: String,
+    profile_img: {
+        type: String,
+        required: true
+    },
+    cloudinary_id: {
+        type: String,
+        required: true
     },
     createdAt: {
         type: Date,
