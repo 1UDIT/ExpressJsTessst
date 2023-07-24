@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ImageUploaderFormat = new mongoose.Schema({ 
+const ImageUploaderFormat = new mongoose.Schema({
     profile_img: {
         type: String,
         required: true
@@ -19,7 +19,7 @@ const ImageUploaderFormat = new mongoose.Schema({
     },
     day: {
         type: String,
-        enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday','null'],
         required: true
     },
     Time: {
@@ -29,13 +29,16 @@ const ImageUploaderFormat = new mongoose.Schema({
     Studio: {
         type: String,
         required: true
-    }, 
+    },
+    Season: {
+        type: String,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now
     }
 });
- 
-module.exports = ApiModel = mongoose.model("UploadImage", ImageUploaderFormat);
 
- 
+module.exports = ApiModel = mongoose.model("schedule", ImageUploaderFormat);
+
